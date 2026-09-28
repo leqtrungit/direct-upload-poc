@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens — lifted verbatim from the Harnix console / landing design.
+   Dark is the default; light is applied by `data-theme="light"` on <html>.
+--------------------------------------------------------------------------- */
+
+:root {
+  --bg: #0c0c0d;
+  --surface: #141416;
+  --surface2: #1b1b1e;
+  --surface3: #232328;
+  --line: #26262a;
+  --line2: #35353b;
+  --text: #f2f2f3;
+  --text2: #a8a8ae;
+  --text3: #90909a;
+  --accent: oklch(0.74 0.13 165);
+  --accent-hover: oklch(0.82 0.11 165);
+  --accent-ink: #04140e;
+  --accent-soft: rgba(52, 199, 153, 0.13);
+  --ok: oklch(0.74 0.13 160);
+  --warn: oklch(0.81 0.13 82);
+  --err: oklch(0.7 0.16 25);
+  --info: oklch(0.74 0.11 245);
+  --err-ink: #1c0705;
+  --line-input: #70707a;
+  --shim: linear-gradient(90deg, #1b1b1e 0%, #252529 50%, #1b1b1e 100%);
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface2: #f5f5f6;
+  --surface3: #eaeaec;
+  --line: #e5e5e8;
+  --line2: #d2d2d8;
+  --text: #18181b;
+  --text2: #55555c;
+  --text3: #67676f;
+  --accent: oklch(0.52 0.12 165);
+  --accent-hover: oklch(0.44 0.12 165);
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(16, 124, 96, 0.1);
+  --ok: oklch(0.5 0.12 160);
+  --warn: oklch(0.55 0.13 68);
+  --err: oklch(0.52 0.17 25);
+  --info: oklch(0.52 0.12 250);
+  --err-ink: #ffffff;
+  --line-input: #84848b;
+  --shim: linear-gradient(90deg, #f0f0f1 0%, #e4e4e6 50%, #f0f0f1 100%);
+  color-scheme: light;
+}
+
+@theme {
+  /* Measured: the full desktop header fits one row from 900px with the web
+     font, but not until 940px with the wider fallback font during the swap
+     window — so the collapse point is 940px. Re-measure when a nav label
+     changes length; "Hỏi đáp" replacing "FAQ" moved this by 40px. */
+  --breakpoint-nav: 940px;
+  /* Below this the primary CTA needs its short label to fit beside the logo.
+     Measured against the fallback font, not the web font: during the swap
+     window "Tham gia waitlist" overflows the bar at 344px and 360px, and first
+     fits safely at 375px. */
+  --breakpoint-xs: 375px;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface2: var(--surface2);
+  --color-surface3: var(--surface3);
+  --color-line: var(--line);
+  --color-line2: var(--line2);
+  --color-line-input: var(--line-input);
+  --color-text: var(--text);
+  --color-text2: var(--text2);
+  --color-text3: var(--text3);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-err: var(--err);
+  --color-err-ink: var(--err-ink);
+  --color-info: var(--info);
+
+  --font-sans: var(--font-public-sans), system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --animate-pulse-dot: hxpulse 1.8s ease-in-out infinite;
+  --animate-shimmer: hxshim 1.3s linear infinite;
+  --animate-spin-slow: hxspin 0.8s linear infinite;
+}
+
+@keyframes hxpulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.82);
+  }
+}
+
+@keyframes hxshim {
+  0% {
+    background-position: -320px 0;
+  }
+  100% {
+    background-position: 320px 0;
+  }
+}
+
+@keyframes hxspin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* The header is sticky and 63px tall at every width; keep anchor targets
+       clear of it with a little breathing room. */
+    scroll-padding-top: 76px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* The prototype leaned on a global anchor colour; keep it as an opt-in. */
+  .link {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+  }
+
+  .shim {
+    background: var(--shim);
+    background-size: 320px 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

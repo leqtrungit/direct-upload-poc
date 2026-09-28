@@ -1,0 +1,63 @@
+---
+date: "2026-09-02"
+readingMinutes: 4
+title: "Tách dữ liệu từ ngày đầu"
+excerpt: "Multi-tenant không phải tính năng thêm sau. Ghi chú thiết kế tầng tenancy của Harnix."
+en:
+  title: "Separating data from day one"
+  excerpt: "Multi-tenancy is not a feature you bolt on later. Design notes on the Harnix tenancy layer."
+---
+
+Có một câu hỏi dễ bị hoãn lại khi mới xây một nền tảng: dữ liệu của từng doanh
+nghiệp nằm ở đâu, và ai được phép nhìn thấy nó? Hoãn câu hỏi này thường nghĩa là
+trả lời nó bằng một migration đau đớn sau này, khi đã có khách hàng thật dùng hệ
+thống thật.
+
+## Một vùng dữ liệu cho mỗi doanh nghiệp
+
+Harnix tách dữ liệu theo tenant từ lớp lưu trữ, không phải bằng một cột `tenant_id`
+thêm vào sau và hy vọng mọi truy vấn đều nhớ lọc theo nó. Mỗi doanh nghiệp có một
+vùng dữ liệu riêng cho tài liệu, agent, và lịch sử hội thoại. Người dùng cuối chỉ
+xem được hội thoại của chính họ — không phải của người dùng khác trong cùng tổ
+chức, và chắc chắn không phải của tổ chức khác.
+
+## Vì sao không thể thêm sau
+
+Cách một hệ thống lưu trữ dữ liệu định hình cách nó có thể xoá dữ liệu. Nếu tenancy
+là một điều kiện lọc được thêm vào từng câu query, việc đảm bảo xoá đúng — và chỉ
+đúng — dữ liệu của một người dùng khi họ yêu cầu trở thành một bài toán kiểm tra
+lại toàn bộ codebase. Nếu tenancy là một biên giới ở tầng lưu trữ, thao tác xoá là
+một thao tác cục bộ trong đúng vùng dữ liệu đó.
+
+Đây không phải là chi tiết kỹ thuật thuần tuý. Nghị định 13/2023 về bảo vệ dữ liệu
+cá nhân đặt ra yêu cầu cụ thể về việc xoá dữ liệu theo yêu cầu. Một kiến trúc tách
+tenant từ đầu là điều kiện để trả lời yêu cầu đó một cách đáng tin, thay vì một lời
+hứa không kiểm chứng được.
+
+{/* en */}
+
+There's a question that's easy to defer when you're first building a platform:
+where does each business's data live, and who's allowed to see it? Deferring that
+question usually means answering it later with a painful migration, once real
+customers are running on the real system.
+
+## One data space per business
+
+Harnix separates tenant data at the storage layer, not with a `tenant_id` column
+bolted on afterward and a hope that every query remembers to filter by it. Each
+business gets its own data space for documents, agents, and conversation history.
+End users only ever see their own conversations — not other users' in the same
+organization, and certainly not another organization's.
+
+## Why it can't be added later
+
+How a system stores data shapes how it can delete data. If tenancy is a filter
+condition added to each query, guaranteeing that a deletion removes exactly — and
+only — one user's data when they ask becomes a problem of auditing the entire
+codebase. If tenancy is a boundary at the storage layer, deletion is a local
+operation within that one data space.
+
+This isn't purely a technical detail. Decree 13/2023 on personal data protection
+sets concrete requirements for deleting data on request. A tenancy architecture
+separated from day one is what makes answering that request reliable, instead of an
+unverifiable promise.
