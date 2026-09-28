@@ -14,7 +14,7 @@ function asRecord(body: unknown): Record<string, unknown> {
   return (body ?? {}) as Record<string, unknown>;
 }
 
-/** Narrow an unknown JSON body into the session-request shape — mirrors `readPartnerSubmission` in `lib/validation.ts`. */
+/** Narrow an unknown JSON body into the session-request shape. */
 export function readUploadSessionRequest(body: unknown): UploadSessionRequestBody {
   const raw = asRecord(body);
   return {

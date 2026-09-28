@@ -58,7 +58,7 @@ bytes physically go to a different host.
 | `lib/youtube-client/chunking.ts` | Pure helpers: chunk range/header formatting, retryability |
 | `lib/youtube-client/upload-controller.ts` | Transport-agnostic resumable-upload loop + resume-by-probing logic |
 | `lib/youtube-client/xhr-transport.ts` | `XMLHttpRequest`-based transport (only place that touches the network from the browser) |
-| `components/sections/youtube-upload-demo.tsx` | The UI: file picker, "Kênh A" branding, progress, cancel/retry, result |
+| `components/youtube-upload-demo.tsx` | The UI: file picker, "Kênh A" branding, progress, cancel/retry, result |
 
 ## Mock mode (default)
 
@@ -113,7 +113,7 @@ Server-side flow, exactly as implemented:
    X-Upload-Content-Type: <video mime type>
    X-Upload-Content-Length: <file size in bytes>
 
-   { "snippet": { "title": "<file name>", "description": "Uploaded via Harnix YouTube upload PoC" },
+   { "snippet": { "title": "<file name>", "description": "Uploaded via direct-upload PoC" },
      "status": { "privacyStatus": "unlisted" } }
    ```
 3. The response's `Location` header **is** the resumable upload URL. That
@@ -202,10 +202,10 @@ assume this PoC's code guarantees a working production integration.
 
 ## Rate limiting
 
-`POST /api/youtube/upload-session` reuses the existing best-effort limiter in
+`POST /api/youtube/upload-session` is guarded by the best-effort limiter in
 `lib/rate-limit.ts` (5 requests/minute per first-hop IP, in-memory, resets on
-restart) — the same mechanism the waitlist/partner forms use. It blunts a
-naive retry loop; it is not a defense against a distributed sender.
+restart). It blunts a naive retry loop; it is not a defense against a
+distributed sender.
 
 ## Testing status
 

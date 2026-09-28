@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { UploadPocPage } from "@/components/pages/upload-poc";
+import { UploadPocPage } from "@/components/upload-poc";
 
 export const metadata: Metadata = {
   title: "Tải video lên YouTube — PoC",

@@ -39,10 +39,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "integration_not_configured", message: error.message }, { status: 501 });
     }
     if (error instanceof IntegrationRequestError) {
-      console.error("[harnix] youtube integration session failed", error);
+      console.error("[upload-poc] youtube integration session failed", error);
       return NextResponse.json({ error: "integration_request_failed", message: error.message }, { status: 502 });
     }
-    console.error("[harnix] youtube upload session failed", error);
+    console.error("[upload-poc] youtube upload session failed", error);
     return NextResponse.json({ error: "internal_error" }, { status: 500 });
   }
 }

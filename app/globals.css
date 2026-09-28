@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Design tokens — lifted verbatim from the Harnix console / landing design.
-   Dark is the default; light is applied by `data-theme="light"` on <html>.
+   Design tokens for the PoC UI. Dark only — there is no theme toggle here.
 --------------------------------------------------------------------------- */
 
 :root {
@@ -25,45 +24,7 @@
   --info: oklch(0.74 0.11 245);
   --err-ink: #1c0705;
   --line-input: #70707a;
-  --shim: linear-gradient(90deg, #1b1b1e 0%, #252529 50%, #1b1b1e 100%);
   color-scheme: dark;
-}
-
-[data-theme="light"] {
-  --bg: #fafafa;
-  --surface: #ffffff;
-  --surface2: #f5f5f6;
-  --surface3: #eaeaec;
-  --line: #e5e5e8;
-  --line2: #d2d2d8;
-  --text: #18181b;
-  --text2: #55555c;
-  --text3: #67676f;
-  --accent: oklch(0.52 0.12 165);
-  --accent-hover: oklch(0.44 0.12 165);
-  --accent-ink: #ffffff;
-  --accent-soft: rgba(16, 124, 96, 0.1);
-  --ok: oklch(0.5 0.12 160);
-  --warn: oklch(0.55 0.13 68);
-  --err: oklch(0.52 0.17 25);
-  --info: oklch(0.52 0.12 250);
-  --err-ink: #ffffff;
-  --line-input: #84848b;
-  --shim: linear-gradient(90deg, #f0f0f1 0%, #e4e4e6 50%, #f0f0f1 100%);
-  color-scheme: light;
-}
-
-@theme {
-  /* Measured: the full desktop header fits one row from 900px with the web
-     font, but not until 940px with the wider fallback font during the swap
-     window — so the collapse point is 940px. Re-measure when a nav label
-     changes length; "Hỏi đáp" replacing "FAQ" moved this by 40px. */
-  --breakpoint-nav: 940px;
-  /* Below this the primary CTA needs its short label to fit beside the logo.
-     Measured against the fallback font, not the web font: during the swap
-     window "Tham gia waitlist" overflows the bar at 344px and 360px, and first
-     fits safely at 375px. */
-  --breakpoint-xs: 375px;
 }
 
 @theme inline {
@@ -91,30 +52,7 @@
   --font-display: var(--font-space-grotesk), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
-  --animate-pulse-dot: hxpulse 1.8s ease-in-out infinite;
-  --animate-shimmer: hxshim 1.3s linear infinite;
   --animate-spin-slow: hxspin 0.8s linear infinite;
-}
-
-@keyframes hxpulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.35;
-    transform: scale(0.82);
-  }
-}
-
-@keyframes hxshim {
-  0% {
-    background-position: -320px 0;
-  }
-  100% {
-    background-position: 320px 0;
-  }
 }
 
 @keyframes hxspin {
@@ -126,9 +64,6 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* The header is sticky and 63px tall at every width; keep anchor targets
-       clear of it with a little breathing room. */
-    scroll-padding-top: 76px;
   }
 
   body {
@@ -147,7 +82,6 @@
 }
 
 @layer utilities {
-  /* The prototype leaned on a global anchor colour; keep it as an opt-in. */
   .link {
     color: var(--accent);
     text-decoration: none;
@@ -155,11 +89,6 @@
   .link:hover {
     color: var(--accent-hover);
     text-decoration: underline;
-  }
-
-  .shim {
-    background: var(--shim);
-    background-size: 320px 100%;
   }
 }
 

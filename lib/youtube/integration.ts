@@ -81,7 +81,7 @@ export async function createIntegrationSession(input: {
         "X-Upload-Content-Length": String(input.fileSizeBytes),
       },
       body: JSON.stringify({
-        snippet: { title: input.title, description: "Uploaded via Harnix YouTube upload PoC" },
+        snippet: { title: input.title, description: "Uploaded via direct-upload PoC" },
         status: { privacyStatus: "unlisted" },
       }),
     },

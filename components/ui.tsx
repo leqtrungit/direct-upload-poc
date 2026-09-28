@@ -1,10 +1,5 @@
 import type { ReactNode } from "react";
 
-/** Segmented-control styling: the design's `seg(on)` helper. */
-export function segClass(active: boolean) {
-  return active ? "bg-surface3 text-text" : "bg-transparent text-text3";
-}
-
 /** Every section on the page shares the same rhythm. */
 export function Section({
   id,
